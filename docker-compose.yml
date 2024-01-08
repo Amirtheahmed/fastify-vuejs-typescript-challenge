@@ -10,9 +10,13 @@ services:
       MYSQL_DATABASE: vartur_docker_db
       MYSQL_ROOT_PASSWORD: 123456789
     networks:
-      - varturnet
+      - internal-net
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        - VITE_APP_API_URL=http://fastify-vuejs-backend:3000/api
+        - VITE_APP_API_UPLOAD_URL=http://fastify-vuejs-backend:3000
     container_name: frontend
     restart: unless-stopped
     environment:
@@ -20,7 +24,7 @@ services:
     ports:
       - "4173:4173"
     networks:
-      - varturnet
+      - internal-net
     depends_on:
       - vartur-backend
   vartur-backend:
@@ -35,8 +39,8 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - varturnet
+      - internal-net
 
 networks:
-  varturnet:
+  internal-net:
     driver: bridge

@@ -10,7 +10,8 @@ services:
     networks:
       - fastify-vuejs-net
 
-  frontend:
+  fastify-vuejs-frontend:
+    container_name: fastify-vuejs-frontend
     image: amirtheahmed/fastify-vuejs-frontend:latest
     labels:
       - "traefik.enable=true"
@@ -18,10 +19,6 @@ services:
       - "traefik.http.routers.frontend.entrypoints=https"
       - "traefik.http.services.frontend.loadbalancer.server.port=4173"
     restart: unless-stopped
-    environment:
-      PORT: 4173
-      VITE_APP_API_URL: http://fastify-vuejs-backend:3000/api
-      VITE_APP_API_UPLOAD_URL: http://fastify-vuejs-backend:3000
     ports:
       - "4173:4173"
     networks:
@@ -31,10 +28,13 @@ services:
       - fastify-vuejs-backend
 
   fastify-vuejs-backend:
+    container_name: fastify-vuejs-backend
     image: amirtheahmed/fastify-vuejs-backend:latest
     environment:
       - DATABASE_URL=mysql://root:123456789@fastify-vuejs-mysqldb/fastify_vuejs_docker_db
     restart: unless-stopped
+    ports:
+      - "3000:3000"
     networks:
       - fastify-vuejs-net
     depends_on:

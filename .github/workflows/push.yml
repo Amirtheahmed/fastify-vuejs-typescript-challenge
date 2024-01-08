@@ -48,6 +48,9 @@ jobs:
           build-args: |
             APP_VERSION=${{ steps.slug.outputs.version }}"
             DATE_CREATED=${{ steps.date.outputs.date }}
+            VITE_APP_API_URL=http://localhost:3000/api
+            VITE_APP_API_UPLOAD_URL=http://localhost:3000
+
           tags: |
             amirtheahmed/fastify-vuejs-frontend:${{ steps.slug.outputs.version }}
             amirtheahmed/fastify-vuejs-frontend:latest

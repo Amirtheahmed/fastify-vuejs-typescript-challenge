@@ -1,6 +1,6 @@
 <template>
   <div class="navbar bg-neutral text-neutral-content place-content-center">
-    <button class="btn btn-ghost text-xl">Vartur Full Stack Developer Challenge</button>
+    <button class="btn btn-ghost text-xl">Fastify Vue.js Full-Stack App</button>
   </div>
 </template>
 

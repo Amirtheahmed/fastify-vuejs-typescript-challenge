@@ -32,7 +32,7 @@ declare module "fastify" {
 const swaggerOptions = {
   swagger: {
     info: {
-      title: "Vartur Rest Api",
+      title: "Fastify VueJs App Rest Api",
       description: "Fastify based REST API challenge",
       version: "1.0.0",
     },
