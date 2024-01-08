@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  vartur-mysqldb:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: vartur_docker_db
+      MYSQL_ROOT_PASSWORD: 123456789
+    networks:
+      - varturnet
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: unless-stopped
+    environment:
+      PORT: 4173
+    ports:
+      - "4173:4173"
+    networks:
+      - varturnet
+    depends_on:
+      - vartur-backend
+  vartur-backend:
+    build:
+      context: ./backend
+    container_name: backend
+    environment:
+      - DATABASE_URL=mysql://root:123456789@vartur-mysqldb/vartur_docker_db
+    depends_on:
+      - vartur-mysqldb
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - varturnet
+
+networks:
+  varturnet:
+    driver: bridge
