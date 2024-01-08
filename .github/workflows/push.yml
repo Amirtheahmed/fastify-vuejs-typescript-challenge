@@ -82,7 +82,7 @@ jobs:
         run: sleep 20
 
       - name: Setup SSH & Deploy
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
