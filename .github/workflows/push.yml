@@ -89,9 +89,10 @@ jobs:
             docker pull amirtheahmed/fastify-vuejs-frontend:latest &&
             docker pull amirtheahmed/fastify-vuejs-backend:latest &&
             cd /home/amirtheahmed/apps/fastify-vuejs-fullstack-app &&
+            git pull &&
             docker-compose pull &&
-            docker-compose down &&
-            docker-compose up --build -d    
+            docker-compose -f docker-compose.prod.yml down &&
+            docker-compose -f docker-compose.prod.yml up --build -d    
 
 permissions:
   security-events: write
