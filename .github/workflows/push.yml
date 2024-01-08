@@ -69,6 +69,7 @@ jobs:
   deploy:
     name: 🐳 Deploy Docker image
     runs-on: ubuntu-latest
+    needs: docker  # ensures deploy depends on the completion of docker job
 
     steps:
       - name: Checkout code
