@@ -1,4 +1,8 @@
-import Fastify, { FastifyReply, FastifyRequest } from "fastify";
+import Fastify, {
+  FastifyReply,
+  FastifyRequest,
+  HookHandlerDoneFunction,
+} from "fastify";
 import userRoutes from "./modules/user/user.route";
 import { userSchemas } from "./modules/user/user.schema";
 import { JWT } from "@fastify/jwt";
@@ -50,7 +54,10 @@ server.register(fjwt, {
   secret: "sjd9wusansc9sauwq09nc89dskjcbk",
 });
 server.register(fastifyMultipart);
-server.register(cors);
+server.register(cors, {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+});
 server.register(fastifyStatic, {
   root: path.join(__dirname, "../uploads"),
   prefix: "/uploads",
@@ -96,3 +103,4 @@ async function main() {
 }
 
 main();
+

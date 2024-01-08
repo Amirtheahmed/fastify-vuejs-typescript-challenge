@@ -15,9 +15,9 @@ services:
     image: amirtheahmed/fastify-vuejs-frontend:latest
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`fastify-vuejs-app.amirtheahmed.dev`, `www.fastify-vuejs-app.amirtheahmed.dev`)"
-      - "traefik.http.routers.frontend.entrypoints=https"
-      - "traefik.http.services.frontend.loadbalancer.server.port=4173"
+      - "traefik.http.routers.fastify-vuejs-frontend.rule=Host(`fastify-vuejs-app.amirtheahmed.dev`, `www.fastify-vuejs-app.amirtheahmed.dev`)"
+      - "traefik.http.routers.fastify-vuejs-frontend.entrypoints=https"
+      - "traefik.http.services.fastify-vuejs-frontend.loadbalancer.server.port=4173"
     restart: unless-stopped
     ports:
       - "4173:4173"
@@ -33,10 +33,16 @@ services:
     environment:
       - DATABASE_URL=mysql://root:123456789@fastify-vuejs-mysqldb/fastify_vuejs_docker_db
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastify-vuejs-backend.rule=Host(`fastify-vuejs-api.amirtheahmed.dev`, `www.fastify-vuejs-api.amirtheahmed.dev`)"
+      - "traefik.http.routers.fastify-vuejs-backend.entrypoints=https"
+      - "traefik.http.services.fastify-vuejs-backend.loadbalancer.server.port=3000"  
     ports:
       - "3000:3000"
     networks:
       - fastify-vuejs-net
+      - proxy  
     depends_on:
       - fastify-vuejs-mysqldb
 

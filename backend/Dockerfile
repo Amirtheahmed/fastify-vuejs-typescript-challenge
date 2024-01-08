@@ -23,6 +23,9 @@ RUN npm run build
 # Stage 2: Run
 FROM node:20.9.0-alpine
 
+# Install bash
+RUN apk add --no-cache bash
+
 WORKDIR /usr/src/app
 
 # Copy built assets from the builder stage
@@ -38,7 +41,9 @@ EXPOSE 3000
 
 # Copy the start script
 COPY start.sh ./
+COPY wait-for-it.sh ./
 RUN chmod +x ./start.sh
+RUN chmod +x ./wait-for-it.sh
 
 # Start the application
 CMD ["./start.sh"]
