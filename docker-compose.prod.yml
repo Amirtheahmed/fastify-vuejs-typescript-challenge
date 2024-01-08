@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  fastify-vuejs-mysqldb:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: fastify_vuejs_docker_db
+      MYSQL_ROOT_PASSWORD: 123456789
+    networks:
+      - fastify-vuejs-net
+
+  frontend:
+    image: amirtheahmed/fastify-vuejs-frontend:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`fastify-vuejs-app.amirtheahmed.dev`, `www.fastify-vuejs-app.amirtheahmed.dev`)"
+      - "traefik.http.routers.frontend.entrypoints=https"
+      - "traefik.http.services.frontend.loadbalancer.server.port=4173"
+    restart: unless-stopped
+    environment:
+      PORT: 4173
+      VITE_APP_API_URL: http://fastify-vuejs-backend:3000/api
+      VITE_APP_API_UPLOAD_URL: http://fastify-vuejs-backend:3000
+    ports:
+      - "4173:4173"
+    networks:
+      - fastify-vuejs-net
+      - proxy
+    depends_on:
+      - fastify-vuejs-backend
+
+  fastify-vuejs-backend:
+    image: amirtheahmed/fastify-vuejs-backend:latest
+    environment:
+      - DATABASE_URL=mysql://root:123456789@fastify-vuejs-mysqldb/fastify_vuejs_docker_db
+    restart: unless-stopped
+    networks:
+      - fastify-vuejs-net
+    depends_on:
+      - fastify-vuejs-mysqldb
+
+networks:
+  fastify-vuejs-net:
+    driver: bridge
+  proxy:
+    external: true
