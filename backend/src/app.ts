@@ -36,22 +36,11 @@ const swaggerUiOptions = {
 server.register(fastifySwagger, swaggerOptions);
 server.register(fastifySwaggerUi, swaggerUiOptions);
 server.register(fastifyMultipart);
-server.register(cors, {
-  origin: ["https://fastify-vuejs-app.amirtheahmed.dev"],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Access-Control-Allow-Origin",
-    "Origin",
-    "X-Requested-With",
-    "Accept",
-    "Content-Type",
-    "Authorization",
-  ],
-});
 server.register(fastifyStatic, {
   root: path.join(__dirname, "../uploads"),
   prefix: "/uploads",
 });
+server.register(cors);
 
 server.get("/healthcheck", async function () {
   return {
@@ -69,11 +58,12 @@ server.register(categoryRoutes, { prefix: "api/categories" });
 server.register(productRoutes, { prefix: "api/products" });
 async function main() {
   try {
+    server.addHook("onListen", async () => {
+      console.log("Started listening on :3000");
+    });
     server.listen({ port: 3000, host: "0.0.0.0" }, (err) => {
       if (err) throw err;
     });
-
-    console.log("Server ready at http://localhost:3000");
   } catch (e) {
     console.error(e);
     process.exit(1);
