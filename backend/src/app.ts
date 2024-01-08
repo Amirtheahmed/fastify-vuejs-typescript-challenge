@@ -15,6 +15,10 @@ import fastifyStatic from "@fastify/static";
 global.__basedir = path.resolve();
 
 export const server = Fastify();
+server.register(cors, {
+  origin: true, // Reflect the request origin
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+});
 
 const swaggerOptions = {
   swagger: {
@@ -38,7 +42,6 @@ server.register(fastifyStatic, {
   root: path.join(__dirname, "../uploads"),
   prefix: "/uploads",
 });
-server.register(cors);
 
 server.get("/healthcheck", async function () {
   return {
@@ -58,6 +61,9 @@ async function main() {
     server.addHook("onListen", async () => {
       console.log("Started listening on :3000");
     });
+    server.addHook('onSend', async (request, reply) => {
+      console.log(reply.getHeaders()); // Log out the headers
+    });
     server.listen({ port: 3000, host: "0.0.0.0" }, (err) => {
       if (err) throw err;
     });
@@ -68,3 +74,4 @@ async function main() {
 }
 
 main();
+

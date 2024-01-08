@@ -37,7 +37,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.fastify-vuejs-backend.rule=Host(`fastify-vuejs-api.amirtheahmed.dev`, `www.fastify-vuejs-api.amirtheahmed.dev`)"
       - "traefik.http.routers.fastify-vuejs-backend.entrypoints=https"
-      - "traefik.http.services.fastify-vuejs-backend.loadbalancer.server.port=3000"  
+      - "traefik.http.services.fastify-vuejs-backend.loadbalancer.server.port=3000"
     ports:
       - "3000:3000"
     networks:
@@ -51,3 +51,4 @@ networks:
     driver: bridge
   proxy:
     external: true
+

@@ -18,7 +18,16 @@ export async function createCategoryHandler(
 
   try {
     const category = await createCategory(body);
-    return reply.code(201).send(category);
+    return reply
+      .code(201)
+      .headers({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS, POST, GET, PUT, DELETE",
+        "Access-Control-Allow-Headers":
+          "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+      })
+      .send(category);
   } catch (e) {
     return reply.code(500).send(e);
   }
@@ -118,3 +127,4 @@ export async function getCategoryByIdHandler(
     return reply.code(500).send(e);
   }
 }
+
