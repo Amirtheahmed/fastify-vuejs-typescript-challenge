@@ -15,10 +15,7 @@ import fastifyStatic from "@fastify/static";
 global.__basedir = path.resolve();
 
 export const server = Fastify();
-server.register(cors, {
-  origin: true, // Reflect the request origin
-  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-});
+server.register(cors);
 
 const swaggerOptions = {
   swagger: {
@@ -61,7 +58,7 @@ async function main() {
     server.addHook("onListen", async () => {
       console.log("Started listening on :3000");
     });
-    server.addHook('onSend', async (request, reply) => {
+    server.addHook("onSend", async (request, reply) => {
       console.log(reply.getHeaders()); // Log out the headers
     });
     server.listen({ port: 3000, host: "0.0.0.0" }, (err) => {
@@ -74,4 +71,3 @@ async function main() {
 }
 
 main();
-
