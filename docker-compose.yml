@@ -15,8 +15,8 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_APP_API_URL=http://fastify-vuejs-backend:3000/api
-        - VITE_APP_API_UPLOAD_URL=http://fastify-vuejs-backend:3000
+        - VITE_APP_API_URL=http://localhost:3000/api
+        - VITE_APP_API_UPLOAD_URL=http://localhost:3000
     container_name: frontend
     restart: unless-stopped
     environment:
