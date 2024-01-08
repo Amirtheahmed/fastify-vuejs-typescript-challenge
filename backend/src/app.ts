@@ -1,6 +1,4 @@
 import Fastify from "fastify";
-import userRoutes from "./modules/user/user.route";
-import { userSchemas } from "./modules/user/user.schema";
 import { categorySchemas } from "./modules/category/category.schema";
 import categoryRoutes from "./modules/category/category.route";
 import fastifySwagger from "@fastify/swagger";
@@ -49,11 +47,10 @@ server.get("/healthcheck", async function () {
 });
 
 // register schemas
-for (const schema of [...userSchemas, ...categorySchemas, ...productSchemas]) {
+for (const schema of [...categorySchemas, ...productSchemas]) {
   server.addSchema(schema);
 }
 
-server.register(userRoutes, { prefix: "api/users" });
 server.register(categoryRoutes, { prefix: "api/categories" });
 server.register(productRoutes, { prefix: "api/products" });
 async function main() {
