@@ -1,12 +1,6 @@
-import Fastify, {
-  FastifyReply,
-  FastifyRequest,
-  HookHandlerDoneFunction,
-} from "fastify";
+import Fastify from "fastify";
 import userRoutes from "./modules/user/user.route";
 import { userSchemas } from "./modules/user/user.schema";
-import { JWT } from "@fastify/jwt";
-import fjwt from "@fastify/jwt";
 import { categorySchemas } from "./modules/category/category.schema";
 import categoryRoutes from "./modules/category/category.route";
 import fastifySwagger from "@fastify/swagger";
@@ -23,15 +17,6 @@ import fastifyStatic from "@fastify/static";
 global.__basedir = path.resolve();
 
 export const server = Fastify();
-
-declare module "fastify" {
-  interface FastifyRequest {
-    jwt: JWT;
-  }
-  export interface FastifyInstance {
-    authenticate: (request: FastifyRequest, response: FastifyReply) => void;
-  }
-}
 
 const swaggerOptions = {
   swagger: {
@@ -50,30 +35,23 @@ const swaggerUiOptions = {
 
 server.register(fastifySwagger, swaggerOptions);
 server.register(fastifySwaggerUi, swaggerUiOptions);
-server.register(fjwt, {
-  secret: "sjd9wusansc9sauwq09nc89dskjcbk",
-});
 server.register(fastifyMultipart);
 server.register(cors, {
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: ["https://fastify-vuejs-app.amirtheahmed.dev"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Access-Control-Allow-Origin",
+    "Origin",
+    "X-Requested-With",
+    "Accept",
+    "Content-Type",
+    "Authorization",
+  ],
 });
 server.register(fastifyStatic, {
   root: path.join(__dirname, "../uploads"),
   prefix: "/uploads",
 });
-
-// add jwt authentication decorator
-server.decorate(
-  "authenticate",
-  async function (request: FastifyRequest, response: FastifyReply) {
-    try {
-      await request.jwtVerify();
-    } catch (e) {
-      return response.send(e);
-    }
-  },
-);
 
 server.get("/healthcheck", async function () {
   return {
@@ -103,4 +81,3 @@ async function main() {
 }
 
 main();
-
