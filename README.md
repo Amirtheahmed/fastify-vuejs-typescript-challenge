@@ -2,6 +2,9 @@
 
 Full-Stack web app built with Typescript, Fastify, VueJS3, and Prisma.
 
+Online Demo:
+https://fastify-vuejs-app.amirtheahmed.dev
+
 ## Getting Started
 
 This guide will walk you through the process of setting up and running the application on your local environment or using Docker.
