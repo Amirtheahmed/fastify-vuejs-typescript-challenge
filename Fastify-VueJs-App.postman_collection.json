@@ -3,128 +3,10 @@
 		"_postman_id": "4975e8f8-b346-4d03-8e64-cf92396fcfa3",
 		"name": "Fastify-VueJs-App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "8649239"
+		"_exporter_id": "8649239",
+		"_collection_link": "https://www.postman.com/amirtheahmed/workspace/amirtheahmed-s-public-postman-collections/collection/8649239-4975e8f8-b346-4d03-8e64-cf92396fcfa3?action=share&source=collection_link&creator=8649239"
 	},
 	"item": [
-		{
-			"name": "User",
-			"item": [
-				{
-					"name": "Create user",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"let firstName = pm.variables.replaceIn(\"{{$randomFirstName}}\")",
-									"let lastName = pm.variables.replaceIn(\"{{$randomFirstName}}\")",
-									"",
-									"pm.environment.set(\"name\", `${firstName} ${lastName}`)",
-									"",
-									"pm.environment.set(\"password\", pm.variables.replaceIn('{{$randomPassword}}'))",
-									"",
-									"pm.environment.set(\"email\", `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`)",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"{{email}}\",\n    \"name\": \"{{name}}\",\n    \"password\": \"{{password}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/users",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Find users",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/users",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"accessToken\", jsonData.accessToken)"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/users/login",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "Category",
 			"item": [
@@ -143,20 +25,13 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Category A\",\n    \"parentId\": 12\n}",
+							"raw": "{\n    \"name\": \"Category A\"\n    //\"parentId\": 12\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -191,14 +66,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
@@ -240,14 +108,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "DELETE",
 						"header": [],
@@ -280,14 +141,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -309,19 +163,12 @@
 					"name": "Get categories",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/categories?page=1",
+							"raw": "{{host}}/api/categories",
 							"host": [
 								"{{host}}"
 							],
@@ -332,7 +179,8 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "limit",
@@ -379,14 +227,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
@@ -438,14 +279,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
@@ -498,14 +332,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "DELETE",
 						"header": [],
@@ -538,14 +365,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -567,14 +387,7 @@
 					"name": "Get products",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{accessToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -624,6 +437,12 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://fastify-vuejs-api.amirtheahmed.dev"
 		}
 	]
 }
